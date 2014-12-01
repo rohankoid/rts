@@ -4,6 +4,8 @@
 <?php $utilization = round($this->utilization, 2) ; ?>
 <?php $data = json_encode($timeLineData); ?>
 <?php $tasks = $this->tasks; ?>
+<?php $exactResponseTime = $this->exactResponseTime;?>
+<?php $exactResponseTimeFlag = $this->exactResponseTimeFlag;?>
 <div>
     <table id="data-table" style="padding-bottom: 30px;">
         <thead>
@@ -84,4 +86,23 @@ if ($totalUtilization <= $utilization)
                     chart.draw(dataTable);
                     }
 </script>
-<div id="time-line" style="width: 1200px; height: 600px;"></div>
+<div id="time-line" style="width: 1200px; height: <?php echo count($tasks) * 50 ?>px;"></div>
+<span style="float: left; padding-top: 20px; width: 600px; <?php echo $exactResponseTimeFlag ? 'color: green;' : 'color: red;'?>">
+    <span style="font-weight: bold;">(Exact) Response Time Analysis <?php echo $exactResponseTimeFlag ? '[ SCHEDULABLE ] ': '[ NOT SCHEDULABLE ] ';?></span><br>
+    <?php foreach($exactResponseTime as $key => $rt):?>
+        <?php foreach($rt as $k=>$itr):?>
+            <?php echo $key.'['.$k.'] => '. $itr;?>
+            <br>
+        <?php endforeach;?>
+    <?php endforeach;?>      
+</span>
+
+<?php if ($withDeadLine): ?>
+<span style="float:left; padding-top: 20px; width: 600px; <?php echo $this->simplifiedResponseTimeFlag ? 'color: green;' : 'color: red;'?>">
+    <span style="font-weight: bold;">(Simplified) Response Time Analysis <?php echo $this->simplifiedResponseTimeFlag ? '[ SCHEDULABLE ] ': '[ NOT SCHEDULABLE ] ';?></span><br>
+    <?php foreach($this->simplifiedResponseTime as $key => $rt):?>        
+        <?php echo $key.' => '. $rt;?>
+        <br>        
+    <?php endforeach;?>      
+</span>
+<?php endif;?>

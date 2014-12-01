@@ -11,9 +11,23 @@ class IndexController extends Zend_Controller_Action
                         array('d',50,4),
                         array('e',100,2),                        
                         ),
-            1 => array(),
-            2 => array(),
-            3 => array(),
+            1 => array(
+                        array('a',80,40),
+                        array('b',40,10),
+                        array('c',20,5),
+                ),
+            2 => array(
+                        array('a',3,1),
+                        array('b',6,1),
+                        array('c',5,1),
+                        array('d',10,2),
+                ),
+            3 => array(
+                        array('a',3,1, 3),
+                        array('b',6,1, 6),
+                        array('c',5,1, 5),
+                        array('d',10,2, 10), 
+                ),
             4 => array(),
             5 => array(),
         );
@@ -24,7 +38,7 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $tasks = $this->tasks[0];        
+        $tasks = $this->tasks[3];        
         $scheduler = new RTS_Scheduling($tasks);                        
         $scheduler->orderByPriority();
         $scheduler->calculateMajorCycle();        
@@ -34,6 +48,13 @@ class IndexController extends Zend_Controller_Action
         $this->view->timeLineData = $scheduler->formatJSONOutput();
         $this->view->tasks = $scheduler->getTasks();   
         $this->view->withDeadLine = $scheduler->hasDeadLine();
+        $this->view->exactResponseTime = $scheduler->exactRTA();
+        $this->view->exactResponseTimeFlag = $scheduler->getRtaFlag();
+        if($scheduler->hasDeadLine())
+        {
+            $this->view->simplifiedResponseTime = $scheduler->simplifiedRTA();
+            $this->view->simplifiedResponseTimeFlag = $scheduler->getSimplifiedRtaFlag();
+        }
     }
 
 

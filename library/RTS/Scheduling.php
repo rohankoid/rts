@@ -3,14 +3,36 @@
 class RTS_Scheduling {
 
     const CRITERIA_DEADLINE = 3;
-    const CRITERIA_PERIOD = 1;    
-    
+    const CRITERIA_PERIOD = 1;
+
     protected $tasks = array();
     protected $majorCycle;
     protected $taskCollection;
     protected $task;
     protected $totalUtilization;
-    
+    protected $rtaFlag;
+    protected $simplifiedRtaFlag;
+
+    public function getSimplifiedRtaFlag()
+    {
+        return $this->simplifiedRtaFlag;
+    }
+
+    public function setSimplifiedRtaFlag($simplifiedRtaFlag)
+    {
+        $this->simplifiedRtaFlag = $simplifiedRtaFlag;
+    }
+
+    public function getRtaFlag()
+    {
+        return $this->rtaFlag;
+    }
+
+    public function setRtaFlag($rtaFlag)
+    {
+        $this->rtaFlag = $rtaFlag;
+    }
+
     public function getTotalUtilization()
     {
         return $this->totalUtilization;
@@ -83,10 +105,10 @@ class RTS_Scheduling {
             return self::CRITERIA_PERIOD;
         }
     }
-    
+
     public function hasDeadLine()
     {
-        if($this->getCriteria() == 3)
+        if ($this->getCriteria() == 3)
         {
             return true;
         }
@@ -138,7 +160,7 @@ class RTS_Scheduling {
     }
 
     public function processTask()
-    {      
+    {
         $string = '';
         $interruptStack = $this->getTasks();
         $taskCollection = $this->getTaskCollection();
@@ -149,9 +171,9 @@ class RTS_Scheduling {
             for ($i = 0; $i < $size; $i++) {
                 if ($interruptStack[$i][5] == RTS_Task::STATUS_READY)
                 {
-                    $taskObj = new RTS_Task($interruptStack[$i]);  
+                    $taskObj = new RTS_Task($interruptStack[$i]);
                     $taskObj->setStartTime($index);
-                    $taskObj->setEndTime($index+1);
+                    $taskObj->setEndTime($index + 1);
                     $taskCollection->append($taskObj);
                     $string .= $interruptStack[$i][0];
                     $flag = $i;
@@ -178,8 +200,8 @@ class RTS_Scheduling {
                     $interruptStack[$i][4] = (int) ($interruptStack[$i][4]) + (int) ($interruptStack[$i][2]);
                 }
             }
-        }   
-        
+        }
+
         return $string;
     }
 
@@ -188,24 +210,23 @@ class RTS_Scheduling {
         $data = array();
         $count = 0;
         $taskCollection = $this->getTaskCollection();
-        foreach($taskCollection as $task)
-        {            
+        foreach ($taskCollection as $task) {
             $data[$count][0] = $task->getProcessName();
-            $data[$count][1] = $task->getStartTime() *1000;
-            $data[$count][2] = $task->getEndTime() *1000;
-            $count++;                        
+            $data[$count][1] = $task->getStartTime() * 1000;
+            $data[$count][2] = $task->getEndTime() * 1000;
+            $count++;
         }
-        
+
         return $data;
     }
-    
+
     public function LuiLayland()
     {
         $count = count($this->getTasks());
-        $luiLaylandUtilization = $count * (pow(2, (1/$count)) - 1);
+        $luiLaylandUtilization = $count * (pow(2, (1 / $count)) - 1);
         return $luiLaylandUtilization;
     }
-    
+
     /**
      * NOTE: also addes status_ready, calculated_time to the task array.
      * @return float total utilization
@@ -214,18 +235,104 @@ class RTS_Scheduling {
     {
         $totalUtilization = 0;
         $tasks = $this->getTasks();
-        foreach($tasks as $task)
-        {
-            $utilization = round(($task[2]/$task[1]), 2);
+        foreach ($tasks as $task) {
+            $utilization = round(($task[2] / $task[1]), 2);
             $task[5] = RTS_Task::STATUS_READY;
             $task[4] = $task[2];
             $task[6] = $utilization;
-            $arr[] = $task;  
+            $arr[] = $task;
             $totalUtilization += $utilization;
-        }        
+        }
         $this->setTasks($arr);
         $this->setTotalUtilization($totalUtilization);
         return $totalUtilization;
+    }
+
+    public function simplifiedRTA()
+    {
+        $count = 0;
+        $this->setSimplifiedRtaFlag(TRUE);
+        $tasks = $this->getTasks();
+        $responseTime = array();
+        foreach ($tasks as $task) {            
+            $computationTime = $task[2];
+            $deadLine = $task[3];
+            $processName = $task[0];            
+            if ($count == 0)
+            {
+                $responseTime[$processName] = $computationTime;                
+                $count++;
+                continue;
+            }
+
+            $currentResponseTime = $computationTime;
+            $hpTasks = $this->getHPTasks($count);
+            foreach ($hpTasks as $hpTask) {
+                $hpTaskPeriod = $hpTask[1];
+                $hpTaskComputation = $hpTask[2];                  
+                $currentResponseTime += ceil($deadLine / $hpTaskPeriod) * $hpTaskComputation;                
+            }
+            $responseTime[$processName] = $currentResponseTime;
+            if ($currentResponseTime > $deadLine)
+            {                                
+                $this->setSimplifiedRtaFlag(FALSE);
+            }                       
+            $count++;
+        }
+
+        return $responseTime;
+    }
+
+    public function exactRTA()
+    {
+        $count = 0;
+        $this->setRtaFlag(TRUE);
+        $tasks = $this->getTasks();
+        $responseTime = array();
+        foreach ($tasks as $task) {
+            $rtaFlag = 0;
+            $computationTime = $task[2];
+            $processName = $task[0];
+            $lastReponseTime = 0;
+            if ($count == 0)
+            {
+                $responseTime[$processName][0] = $computationTime;
+                $rtaFlag = 1;
+                $count++;
+                continue;
+            }
+            for ($index = 0; $index < 10; $index++) {
+                $currentResponseTime = $computationTime;
+                $hpTasks = $this->getHPTasks($count);
+                foreach ($hpTasks as $hpTask) {
+                    $hpTaskPeriod = $hpTask[1];
+                    $currentResponseTime += ceil($lastReponseTime / $hpTaskPeriod);
+                }
+                $responseTime[$processName][$index] = $currentResponseTime;
+                if ($currentResponseTime < $lastReponseTime || $currentResponseTime == $lastReponseTime)
+                {
+                    $rtaFlag = 1;
+                    break;
+                }
+                $lastReponseTime = $currentResponseTime;
+            }
+            if (!$rtaFlag)
+            {
+                $this->setRtaFlag(FALSE);
+            }
+            $count++;
+        }
+
+        return $responseTime;
+    }
+
+    public function getHPTasks($index)
+    {
+        $tasks = $this->getTasks();
+        for ($i = $index; $i > 0; $i--) {
+            $hpTaks[] = $tasks[$i - 1];
+        }
+        return $hpTaks;
     }
 
 }
