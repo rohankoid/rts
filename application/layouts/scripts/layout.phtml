@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      dir="ltr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript">
+        var APP_BASEPATH = '<?php echo $this->baseUrl(); ?>';
+    </script>
+    <title> MInsurance</title>
+    <?php
+    $baseUrl = $this->baseUrl();
+
+    /**
+     * add Css to headLink
+     */    
+    $this->headLink()->appendStylesheet($baseUrl . '/css/style.css', 'all');    
+    print $this->headLink();
+
+    /**
+     * add javascript
+     */    
+    $this->headScript()->appendFile($baseUrl . '/js/scripts.js');    
+    print $this->headScript();
+    ?>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+</head>
+<?php $homelink = $baseUrl.'/insurance/client/index';?>
+<body class="not-front">
+    <div id="wrapper">        
+        <content id="content-wrap">
+            <div id="page">                
+                <div id="main" class="clearfix">                    
+                    <div id="content">
+                        <?php print $this->layout()->content; ?>
+                    </div><!--End #content-->
+                </div><!--End #main-->
+                 <div id="footer-inner" class="clearfix">
+                        <div class="power-by">
+                            Powered by: <span>Diagonal</span>
+                        </div>                        
+                </div><!--End #footer-inner-->
+            </div><!--End #page-->
+        </content><!--End #content-wrap-->
+    </div><!--End #wrapper-->
+<body>

@@ -1,0 +1,71 @@
+<?php $withDeadLine = $this->withDeadLine; ?>
+<?php $timeLineData = $this->timeLineData; ?>
+<?php $data = json_encode($timeLineData); ?>
+<?php $tasks = $this->tasks; ?>
+<div>
+    <table id="data-table" style="padding-bottom: 30px;">
+        <thead>
+            <tr>
+                <th>
+                    Process
+                </th>
+                <th>
+                    Period
+                </th>
+                <th>
+                    Computation Time
+                </th>
+                <?php if ($withDeadLine): ?>
+                    <th>
+                        DeadLine
+                    </th>
+                <?php endif; ?>
+                <th>
+                    Utilization (%)
+                </th>
+            </tr>        
+        </thead>
+        <tbody>
+            <?php foreach ($tasks as $task): ?>
+                <tr>
+                    <td>
+                        <?php echo $task[0]; ?>
+                    </td>
+                    <td>
+                        <?php echo $task[1]; ?>
+                    </td>
+                    <td>
+                        <?php echo $task[2]; ?>
+                    </td>
+                    <?php if ($withDeadLine): ?>
+                        <td>
+                            <?php echo $task[3]; ?>
+                        </td>
+                    <?php endif; ?>
+                    <td>
+                        <?php echo $task[6]; ?>
+                    </td>                
+                </tr> 
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
+'version':'1','packages':['timeline']}]}"></script>
+<script type="text/javascript">
+
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+
+            var container = document.getElementById('time-line');
+                    var chart = new google.visualization.Timeline(container);
+                    var dataTable = new google.visualization.DataTable();
+                    dataTable.addColumn({ type: 'string', id: 'Name' });
+                    dataTable.addColumn({ type: 'number', id: 'Start' });
+                    dataTable.addColumn({ type: 'number', id: 'End' });
+                    dataTable.addRows(<?php echo $data; ?>);
+                    chart.draw(dataTable);
+                    }
+</script>
+
+<div id="time-line" style="width: 900px; height: 600px;"></div>

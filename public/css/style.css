@@ -1,0 +1,213 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*-------------------------------------*/
+/* RESET COMMAN CSS
+/*-------------------------------------*/
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+a{
+	text-decoration: none;
+	color: #669800;
+	outline: none;
+}
+table{
+	width: 100%;
+}
+
+body.front{
+	
+	font-family: 'Open Sans', Arial, sans-serif;
+}
+body.not-front{	
+	font: normal 12px/18px Arial, sans-serif;
+}
+/*-------------------------------------*/
+/* STYLE FOR PAGE LAYOUT
+/*-------------------------------------*/
+#page{
+	margin: 0 auto;
+	padding: 0;
+	width: 20px;
+}
+
+/*-------------------------------------*/
+/* STYLE FOR HOME PAGE
+/*-------------------------------------*/
+#front-logo{
+	text-align: center;
+	padding-top: 120px;
+}
+h1.site-name{
+	text-align: center;
+	font-size: 77px;
+	color: #fff;
+	font-weight: bold;
+	padding-top: 40px;
+}
+h2.slogon{
+	font-size: 27px;
+	color: #ffffff;
+	text-align: center;
+	padding-top: 20px;
+}
+#fornt-nav{
+	text-align: center;
+	padding-top: 60px;
+}
+#fornt-nav ul li{
+	display: inline-block;
+}
+#fornt-nav ul li a{
+	display: inline-block;
+	border: 3px solid #669900;
+	color: #669900;
+	font-size: 18px;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding: 8px 20px;
+	text-decoration: none;
+	margin: 0 10px;
+}
+#fornt-nav ul li.login-link a{
+	background: url(../images/login-icon.png) no-repeat 15px center;
+	padding-left: 40px;
+}
+/****************************************/
+#front-content{
+	background: url(../images/bg-light.png) no-repeat center top #15191D;
+	padding-top: 40px;
+}
+
+
+/*-------------------------------------*/
+/* STYLE FOR INNER PAGE LAYOUT
+/*-------------------------------------*/
+#header-wrap{
+	background: #000000;
+	margin-bottom: 30px;
+}
+.front #header-wrap{
+	margin-bottom: 0px;
+}
+#header{
+	padding: 20px 0;
+}
+#sidebars{
+	float: left;
+	width: 250px;
+}
+#content{
+	float: right;
+	width: 690px;
+}
+#page-title h1{
+	color: #ffffff;
+	background: url(../images/title-bg.png) repeat-x;
+	border: 1px solid #000000;
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size: 25px;
+	font-weight: normal;
+	margin-bottom: 20px;
+	line-height: 31px;
+	text-transform: uppercase;
+	padding: 9px 10px;
+}
+.page-sub-titile h2{
+	background: url(../images/title-bg.png) repeat-x;
+	border: 1px solid #000000;
+	color: #ffffff;
+	font: normal 18px/24px 'Open Sans', Arial, sans-serif;
+	padding: 12px 10px;
+}
+/*-------------------------------------*/
+/* STYLE FOR INNER PAGE
+/*-------------------------------------*/
+header ul{
+	margin: 0;
+	padding: 0;
+}
+header li{
+	float: left;
+	list-style: none;
+}
+#logo{
+	float: left;
+}
+.notefication{
+	float: left;
+}
+.user-action{
+	float: right;
+	margin-top: 10px;
+}
+.user-action li{
+	margin-left: 10px;
+	color: #999999;
+}
+.contact-email{
+	float: right;
+	color: #fff;
+	font-size: 14px;
+	padding-top: 10px; 
+}
+
+/*-------------------------------------*/
+/* RESET COMMAN STYLE
+/*-------------------------------------*/
+.data-block{
+	margin-bottom: 20px;
+}
+table th{
+	background: #333333;
+	border: 1px solid #000;
+	border-top: none;
+	color: #EBEBFA;
+	padding: 8px 10px;
+	text-align: left;
+	font-weight: bold;
+}
+table tr td{
+	border: 1px solid #000;
+	border-top: none;
+	color: #000;
+	padding: 8px 10px;
+}
+table tr.odd td{
+	background: #444444;
+
+}
+table tr.even td{
+	background: #4A4A4A;
+}
+/*-------------------------------------*/
+/* STYLE FOR FOOTER
+/*-------------------------------------*/
+footer{
+	background: #15191D;
+	padding: 20px 0;
+}
+#footer-inner{
+	padding: 20px 0;
+}
+.power-by{
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+	float: right;
+	color: #ffffff;
+        padding-right: 48px;
+}
+.power-by span{
+	font-weight: bold;
+	color: #669900;        
+}
+.contact-info{
+	float: right;
+	font-size: 14px;
+	color: #fff;
+}
