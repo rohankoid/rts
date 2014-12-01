@@ -28,7 +28,11 @@ class IndexController extends Zend_Controller_Action
                         array('c',5,1, 5),
                         array('d',10,2, 10), 
                 ),
-            4 => array(),
+            4 => array(
+                        array('a',50,12),
+                        array('b',40,10),
+                        array('c',30,10),
+                ),
             5 => array(),
         );
     public function init()

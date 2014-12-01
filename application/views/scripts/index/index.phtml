@@ -86,7 +86,7 @@ if ($totalUtilization <= $utilization)
                     chart.draw(dataTable);
                     }
 </script>
-<div id="time-line" style="width: 1200px; height: <?php echo count($tasks) * 50 ?>px;"></div>
+<div id="time-line" style="width: 1200px; height: <?php echo count($tasks) * 60 ?>px;"></div>
 <span style="float: left; padding-top: 20px; width: 600px; <?php echo $exactResponseTimeFlag ? 'color: green;' : 'color: red;'?>">
     <span style="font-weight: bold;">(Exact) Response Time Analysis <?php echo $exactResponseTimeFlag ? '[ SCHEDULABLE ] ': '[ NOT SCHEDULABLE ] ';?></span><br>
     <?php foreach($exactResponseTime as $key => $rt):?>
