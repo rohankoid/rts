@@ -33,7 +33,10 @@ class IndexController extends Zend_Controller_Action
                         array('b',40,10),
                         array('c',30,10),
                 ),
-            5 => array(),
+            5 => array(
+                        array('a',6,3, 5),
+                        array('b',12,3, 6),                        
+                ),
         );
     public function init()
     {
@@ -42,7 +45,7 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $tasks = $this->tasks[3];        
+        $tasks = $this->tasks[0];        
         $scheduler = new RTS_Scheduling($tasks);                        
         $scheduler->orderByPriority();
         $scheduler->calculateMajorCycle();        
