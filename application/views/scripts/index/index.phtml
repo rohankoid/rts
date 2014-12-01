@@ -1,5 +1,7 @@
 <?php $withDeadLine = $this->withDeadLine; ?>
 <?php $timeLineData = $this->timeLineData; ?>
+<?php $totalUtilization = $this->totalUtilization; ?>
+<?php $utilization = round($this->utilization, 2) ; ?>
 <?php $data = json_encode($timeLineData); ?>
 <?php $tasks = $this->tasks; ?>
 <div>
@@ -50,6 +52,21 @@
         </tbody>
     </table>
 </div>
+<?php
+if ($totalUtilization <= $utilization)
+{
+    $result =  " The Total Utilization is:" . $totalUtilization . " < " . $utilization . " (Lui Layland). Hence, Lui Layland criteria for scheduling is satisfied";
+    $luilaylandIndex = 1;
+} else
+{
+    $result = "The Total Utilization is: " . $totalUtilization . " > " . $utilization . " (Lui Layland). Hence, Lui Layland criteria for scheduling is not satisfied.";
+    $luilaylandIndex = 0;
+}
+?>
+<div style="<?php echo $luilaylandIndex ? 'color: green;' : 'color: red;'?>"><?php echo $result;?></div>
+<div style="padding-top: 5px; padding-bottom: 25px; color: brown;">
+    Task String: <span style="color: #333333; padding-left: 8px;"> <?php echo $this->taskString;?> </span>
+</div>
 <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
 'version':'1','packages':['timeline']}]}"></script>
 <script type="text/javascript">
@@ -67,5 +84,4 @@
                     chart.draw(dataTable);
                     }
 </script>
-
 <div id="time-line" style="width: 1200px; height: 600px;"></div>

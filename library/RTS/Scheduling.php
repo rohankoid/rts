@@ -138,7 +138,8 @@ class RTS_Scheduling {
     }
 
     public function processTask()
-    {        
+    {      
+        $string = '';
         $interruptStack = $this->getTasks();
         $taskCollection = $this->getTaskCollection();
         $majorCycle = $this->getMajorCycle();
@@ -152,6 +153,7 @@ class RTS_Scheduling {
                     $taskObj->setStartTime($index);
                     $taskObj->setEndTime($index+1);
                     $taskCollection->append($taskObj);
+                    $string .= $interruptStack[$i][0];
                     $flag = $i;
                     break;
                 } else
@@ -176,7 +178,9 @@ class RTS_Scheduling {
                     $interruptStack[$i][4] = (int) ($interruptStack[$i][4]) + (int) ($interruptStack[$i][2]);
                 }
             }
-        }        
+        }   
+        
+        return $string;
     }
 
     public function formatJSONOutput()

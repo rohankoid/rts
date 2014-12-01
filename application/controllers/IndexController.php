@@ -30,7 +30,7 @@ class IndexController extends Zend_Controller_Action
         $scheduler->calculateMajorCycle();        
         $this->view->totalUtilization = $scheduler->addUtilization();
         $this->view->utilization = $scheduler->LuiLayland();        
-        $scheduler->processTask();                
+        $this->view->taskString = $scheduler->processTask();                
         $this->view->timeLineData = $scheduler->formatJSONOutput();
         $this->view->tasks = $scheduler->getTasks();   
         $this->view->withDeadLine = $scheduler->hasDeadLine();
