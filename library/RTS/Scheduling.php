@@ -143,7 +143,8 @@ class RTS_Scheduling {
         $taskCollection = $this->getTaskCollection();
         $majorCycle = $this->getMajorCycle();
         $size = count($interruptStack);
-        for ($index = 0; $index < $majorCycle - 1; $index++) {
+        $flag = -1;
+        for ($index = 0; $index < $majorCycle; $index++) {
             for ($i = 0; $i < $size; $i++) {
                 if ($interruptStack[$i][5] == RTS_Task::STATUS_READY)
                 {
@@ -168,7 +169,7 @@ class RTS_Scheduling {
                     $interruptStack[$flag][5] = RTS_Task::STATUS_DONE;
                 }
             }
-            for ($i = 0; $i < $interruptStack . length; $i++) {
+            for ($i = 0; $i < $size; $i++) {
                 if (($index + 1) % $interruptStack[$i][1] == 0)
                 {
                     $interruptStack[$i][5] = RTS_Task::STATUS_READY;
@@ -180,6 +181,7 @@ class RTS_Scheduling {
 
     public function formatJSONOutput()
     {
+        $data = array();
         $count = 0;
         $taskCollection = $this->getTaskCollection();
         foreach($taskCollection as $task)
