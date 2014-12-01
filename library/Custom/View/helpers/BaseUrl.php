@@ -9,7 +9,7 @@ class Custom_View_Helper_BaseUrl
         if (defined('RUNNING_FROM_ROOT'))
         {
 
-            $baseUrl .= '/minsurance/public';
+            $baseUrl .= '/rts/public';
 
             $fc->setBaseUrl($baseUrl);
         }
