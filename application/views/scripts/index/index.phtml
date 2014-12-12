@@ -83,7 +83,30 @@ if ($totalUtilization <= $utilization)
                     dataTable.addColumn({ type: 'number', id: 'Start' });
                     dataTable.addColumn({ type: 'number', id: 'End' });
                     dataTable.addRows(<?php echo $data; ?>);
-                    chart.draw(dataTable);
+                    
+                    
+                    google.visualization.events.addListener(chart,'ready',function(){
+                    var axes=[];
+                    $('#time-line svg text').each(function(){
+                        var t = $(this).text();
+                        if(t == parseInt(t).toString() && t.length > 0){
+                            axes.push($(this))
+                        }
+                    })
+                    var inc = Number(axes[1].text());
+                    var sum=0;
+                    for(var i=0;i<axes.length;i++){
+                        var txt=axes[i].text();
+                        var num=Number(txt);
+                        axes[i].text(sum);
+                        sum+=inc;
+                    }
+                })
+                
+                
+               
+                
+                chart.draw(dataTable);
                     }
 </script>
 <div id="time-line" style="width: 1200px; height: <?php echo count($tasks) * 60 ?>px;"></div>

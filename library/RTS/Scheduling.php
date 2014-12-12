@@ -254,13 +254,13 @@ class RTS_Scheduling {
         $this->setSimplifiedRtaFlag(TRUE);
         $tasks = $this->getTasks();
         $responseTime = array();
-        foreach ($tasks as $task) {            
+        foreach ($tasks as $task) {
             $computationTime = $task[2];
             $deadLine = $task[3];
-            $processName = $task[0];            
+            $processName = $task[0];
             if ($count == 0)
             {
-                $responseTime[$processName] = $computationTime;                
+                $responseTime[$processName] = $computationTime;
                 $count++;
                 continue;
             }
@@ -269,14 +269,14 @@ class RTS_Scheduling {
             $hpTasks = $this->getHPTasks($count);
             foreach ($hpTasks as $hpTask) {
                 $hpTaskPeriod = $hpTask[1];
-                $hpTaskComputation = $hpTask[2];                  
-                $currentResponseTime += ceil($deadLine / $hpTaskPeriod) * $hpTaskComputation;                
+                $hpTaskComputation = $hpTask[2];
+                $currentResponseTime += ceil($deadLine / $hpTaskPeriod) * $hpTaskComputation;
             }
             $responseTime[$processName] = $currentResponseTime;
             if ($currentResponseTime > $deadLine)
-            {                                
+            {
                 $this->setSimplifiedRtaFlag(FALSE);
-            }                       
+            }
             $count++;
         }
 
@@ -334,5 +334,49 @@ class RTS_Scheduling {
         }
         return $hpTaks;
     }
+    
+    public function optimalPriorityAssignement()
+    {
+
+    }
 
 }
+
+
+//        function optimalPriorityAssignement(tasksStack, deadlines){
+//	
+//		for (var k=0; k< deadlines.length; k++){
+//			for ( var next=k ; next<deadlines.length; next++){
+//				if (isRTAOkey( tasksStack, deadlines)){
+//					echo(" Optimal RTA Was Found");
+//					return deadlines;
+//				}
+//				else {
+//					echo("RTA is NOT Okey");
+//					if ((k+1) <deadlines.length){
+//						var swapValue= deadlines[next];
+//						deadlines[next]=deadlines[k+1];
+//						deadlines[k+1]=swapValue;
+//					}
+//				}
+//			
+//			}
+//		
+//		}
+//		return 0;
+//	
+//	}
+//        
+//        function isRTAOkey(processeStack, deadlines){
+//		var responseTimeAnalysis= initializeResponseTimeAnalysis(processeStack);
+//		responseTimeAnalysis= performResponseTimeAnalysis(processeStack,responseTimeAnalysis);
+//		
+//		for (var i=0; i< responseTimeAnalysis.length;i++){
+//			var j= responseTimeAnalysis[i].length;
+//			if (parseInt(responseTimeAnalysis[i][j-1])> deadlines[i]){
+//				return false;
+//			}
+//		}
+//		echo (responseTimeAnalysis);
+//		return true;
+//	}

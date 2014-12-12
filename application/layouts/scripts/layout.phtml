@@ -22,7 +22,8 @@
     /**
      * add javascript
      */    
-    $this->headScript()->appendFile($baseUrl . '/js/scripts.js');    
+    $this->headScript()->appendFile($baseUrl . '/js/scripts.js'); 
+    $this->headScript()->appendFile($baseUrl . '/js/jquery-2.1.1.min.js');     
     print $this->headScript();
     ?>
 
